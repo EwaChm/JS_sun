@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f8ff;
+        }
+        .tutorial-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .button {
+            padding: 10px 30px;
+            margin: 15px 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .next-button {
+            background: #4CAF50;
+            color: white;
+        }
+        .next-button:hover {
+            background: #45a049;
+        }
+        .clear-button {
+            background: #ff6b6b;
+            color: white;
+        }
+        .clear-button:hover {
+            background: #ff5252;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .step-title {
+            color: #2c3e50;
+            margin: 15px 0;
+            font-size: 18px;
+            min-height: 27px; /* Zapobiega skakaniu układu */
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-container">
+        <canvas id="tutorial" width="300" height="300"></canvas>
+        <div class="step-title" id="stepTitle"></div>
+        <div class="buttons-container">
+            <button id="nextStep" class="button next-button">Następny krok</button>
+            <button id="clearCanvas" class="button clear-button">Wyczyść</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tutorial');
+        const ctx = canvas.getContext('2d');
+        const stepTitle = document.getElementById('stepTitle');
+        let currentStep = 0;
+
+        const clearCanvas = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#000033';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            stepTitle.textContent = '';
+        };
+
+        const steps = [
+            {
+                rysuj: function() {
+                    ctx.beginPath();
+                    ctx.arc(150, 150, 50, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#DDDDDD';
+                    ctx.fill();
+                },
+                tytul: 'Krok 1: Pełnia Księżyca - narysuj pełne koło'
+            },
+            {
+                rysuj: function() {
+                    const gradient = ctx.createRadialGradient(150, 150, 0, 150, 150, 50);
+                    gradient.addColorStop(0, '#FFFFFF');
+                    gradient.addColorStop(1, '#DDDDDD');
+                    ctx.beginPath();
+                    ctx.arc(150, 150, 50, 0, 2 * Math.PI);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                },
+                tytul: 'Krok 2: Dodajemy ciemniejszy odcień na krawędziach koła dla głębi'
+            },
+            {
+                rysuj: function() {
+                    const craters = [
+                        {x: 130, y: 130, r: 10},
+                        {x: 170, y: 140, r: 8},
+                        {x: 150, y: 170, r: 12},
+                        {x: 160, y: 120, r: 7},
+                        {x: 140, y: 150, r: 9}
+                    ];
+                    
+                    craters.forEach(crater => {
+                        ctx.beginPath();
+                        ctx.arc(crater.x, crater.y, crater.r, 0, 2 * Math.PI);
+                        const gradient = ctx.createRadialGradient(
+                            crater.x - 2, crater.y - 2, 0,
+                            crater.x, crater.y, crater.r
+                        );
+                        gradient.addColorStop(0, '#CCCCCC');
+                        gradient.addColorStop(1, '#AAAAAA');
+                        ctx.fillStyle = gradient;
+                        ctx.fill();
+                    });
+                },
+                tytul: 'Krok 3: Dodajemy kratery Księżyca w postaci ciemniejszych kółek'
+            },
+            {
+                rysuj: function() {
+                    ctx.beginPath();
+                    ctx.arc(150, 150, 50, -Math.PI/2, Math.PI/2);
+                    ctx.fillStyle = 'rgba(0, 0, 51, 0.95)';
+                    ctx.fill();
+                },
+                tytul: 'Krok 4: Dodajemy cień (pierwsza kwadra)'
+            },
+            {
+                rysuj: function() {
+                    const glowGradient = ctx.createRadialGradient(150, 150, 50, 150, 150, 70);
+                    glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+                    glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                    ctx.beginPath();
+                    ctx.arc(150, 150, 70, 0, 2 * Math.PI);
+                    ctx.fillStyle = glowGradient;
+                    ctx.fill();
+                },
+                tytul: 'Krok 5: Dodajemy poświatę Księżyca'
+            }
+        ];
+
+        const nextButton = document.getElementById('nextStep');
+        const clearButton = document.getElementById('clearCanvas');
+        
+        function updateCanvas() {
+            clearCanvas();
+            for(let i = 0; i <= currentStep; i++) {
+                steps[i].rysuj();
+            }
+            stepTitle.textContent = steps[currentStep].tytul;
+            
+            if (currentStep === steps.length - 1) {
+                nextButton.textContent = 'Zacznij od nowa';
+            } else {
+                nextButton.textContent = 'Następny krok';
+            }
+        }
+
+        nextButton.onclick = () => {
+            if (currentStep === steps.length - 1) {
+                currentStep = 0;
+            } else {
+                currentStep++;
+            }
+            updateCanvas();
+        };
+
+        clearButton.onclick = () => {
+            clearCanvas();
+            currentStep = 0;
+            nextButton.textContent = 'Następny krok';
+        };
+
+        // Inicjalizacja
+        clearCanvas();
+        updateCanvas();
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            padding: 20px;
+            background: #f0f8ff;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .book-cover {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+        
+        .book-title {
+            color: #2c3e50;
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        
+        .read-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .read-button:hover {
+            background: #2980b9;
+        }
+
+        /* Style dla SVG */
+        .sun-rays {
+            animation: rotate 20s linear infinite;
+            transform-origin: center;
+        }
+
+        .moon-glow {
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="books-grid">
+            <div class="book-card">
+                <div class="book-cover">
+                    <svg viewBox="0 0 200 200">
+                        <!-- Słońce -->
+                        <circle cx="100" cy="100" r="40" fill="#FFD700"/>
+                        <g class="sun-rays">
+                            <path d="M100 40 L100 20" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M100 160 L100 180" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M40 100 L20 100" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M160 100 L180 100" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M60 60 L45 45" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M140 140 L155 155" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M60 140 L45 155" stroke="#FFD700" stroke-width="4"/>
+                            <path d="M140 60 L155 45" stroke="#FFD700" stroke-width="4"/>
+                        </g>
+                    </svg>
+                </div>
+                <h3 class="book-title">Jak Narysować Słońce</h3>
+                <a href="sun_drawing.html"><button class="read-button">Sprawdź!</button></a>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <svg viewBox="0 0 200 200">
+                        <!-- Księżyc -->
+                        <circle cx="100" cy="100" r="40" fill="#D3D3D3"/>
+                        <circle cx="85" cy="85" r="10" fill="#808080" opacity="0.5"/>
+                        <circle cx="120" cy="95" r="8" fill="#808080" opacity="0.5"/>
+                        <circle cx="95" cy="115" r="12" fill="#808080" opacity="0.5"/>
+                        <circle class="moon-glow" cx="100" cy="100" r="45" fill="none" stroke="#D3D3D3" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="book-title">Fazy Księżyca</h3>
+                <a href="moon_drawing.html""><button class="read-button">Sprawdź!</button></a>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <svg viewBox="0 0 200 200">
+                        <!-- Kometa -->
+                        <defs>
+                            <radialGradient id="cometTail">
+                                <stop offset="0%" stop-color="#FFF" stop-opacity="0.8"/>
+                                <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <path d="M160 40 L40 160" stroke="url(#cometTail)" stroke-width="20"/>
+                        <circle cx="160" cy="40" r="15" fill="#FFF"/>
+                        <circle cx="160" cy="40" r="12" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <h3 class="book-title">Rysowanie Komety</h3>
+                         <a href="comet_2.html""><button class="read-button">Sprawdź!</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
